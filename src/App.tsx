@@ -312,14 +312,33 @@ export default function App() {
 
   useEffect(() => {
     const count = selectedServices.length;
-    let original = count * 5900000;
-    let discounted = 0;
-    
-    if (count === 1) discounted = 5900000;
-    else if (count === 2) discounted = 6900000;
-    else if (count === 3) discounted = 9900000;
-    else if (count === 4) discounted = 12900000;
-    else if (count >= 5) discounted = 15900000;
+    const base = 5900000;
+
+    // Pricing strategies:
+    // 'subtractEach' : each additional workflow reduces total by 2,000,000
+    // 'tiered' : explicit best-offer tiers (can be customized)
+    const pricingMode: 'subtractEach' | 'tiered' = 'subtractEach';
+
+    const calcDiscounted = (n: number) => {
+      if (n <= 0) return 0;
+      if (pricingMode === 'tiered') {
+        // Example explicit tiers (adjustable):
+        if (n === 1) return 5900000;
+        if (n === 2) return 9900000; // user wanted 2 wf = 9.9M
+        if (n === 3) return 13900000; // e.g. 13.9M
+        if (n === 4) return 17900000; // e.g. 17.9M
+        return 21900000; // 5+ bundle example
+      }
+
+      // subtractEach: naive total minus 2,000,000 for each additional wf
+      const discountPerExtra = 2000000;
+      const naive = n * base;
+      const discount = (n - 1) * discountPerExtra;
+      return Math.max(0, naive - discount);
+    };
+
+    const original = count * base;
+    const discounted = calcDiscounted(count);
 
     setPrices({ original, discounted });
   }, [selectedServices]);
@@ -482,10 +501,33 @@ export default function App() {
                   <span>{lang === 'vi' ? 'Ưu đãi Combo' : 'Combo Benefits'}</span>
                 </div>
                 <ul className="space-y-1 text-[10px] text-zinc-600">
-                  <li>• 1 {lang === 'vi' ? 'Dịch vụ' : 'Service'}: 5.9M</li>
-                  <li>• 2 {lang === 'vi' ? 'Dịch vụ' : 'Services'}: 6.9M (Save 0.9M)</li>
-                  <li>• 3 {lang === 'vi' ? 'Dịch vụ' : 'Services'}: 9.9M (Save 1.8M)</li>
-                  <li>• 5+ {lang === 'vi' ? 'Dịch vụ' : 'Services'}: 15.9M (Save 3.6M+)</li>
+                  {[1,2,3,4,5].map((n, idx) => {
+                    const label = n === 5 ? '5+' : String(n);
+                    const total = (() => {
+                      const base = 5900000;
+                      // reuse same calc as above (simple inline to avoid refactor)
+                      const pricingMode: 'subtractEach' | 'tiered' = 'subtractEach';
+                      if (pricingMode === 'tiered') {
+                        if (n === 1) return 5900000;
+                        if (n === 2) return 9900000;
+                        if (n === 3) return 13900000;
+                        if (n === 4) return 17900000;
+                        return 21900000;
+                      }
+                      const discountPerExtra = 2000000;
+                      const naive = n * base;
+                      const discount = (n - 1) * discountPerExtra;
+                      return Math.max(0, naive - discount);
+                    })();
+                    // Display text (Save calc)
+                    const naive = n * 5900000;
+                    const save = naive - total;
+                    const saveText = save > 0 ? ` (Save ${new Intl.NumberFormat('vi-VN').format(save/1000/1000)}M)` : '';
+                    const display = new Intl.NumberFormat('vi-VN').format(total/1000000).replace(',','.');
+                    return (
+                      <li key={idx}>• {label} {lang === 'vi' ? 'Dịch vụ' : 'Service'}: {display}M{saveText}</li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
