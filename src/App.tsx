@@ -129,7 +129,7 @@ const content = {
   vi: {
     hero: {
       tag: "DÀNH CHO FOUNDER ĐANG BỊ 'MẮC KẸT'",
-      title: "THAY VÌ TRẢ 50 TRIỆU SETUP, HÃY TRẢ 3.9 TRIỆU/THÁNG ĐỂ THẤY KẾT QUẢ!",
+      title: "THAY VÌ TRẢ 50 TRIỆU SETUP, HÃY TRẢ 5.9 TRIỆU/THÁNG ĐỂ THẤY KẾT QUẢ!",
       subtitle: "Đừng để AI là một từ khóa thời thượng. Hãy biến nó thành cỗ máy in tiền với quy trình đã được kiểm chứng."
     },
     pain: {
@@ -312,10 +312,10 @@ export default function App() {
 
   useEffect(() => {
     const count = selectedServices.length;
-    let original = count * 3900000;
+    let original = count * 5900000;
     let discounted = 0;
     
-    if (count === 1) discounted = 3900000;
+    if (count === 1) discounted = 5900000;
     else if (count === 2) discounted = 6900000;
     else if (count === 3) discounted = 9900000;
     else if (count === 4) discounted = 12900000;
@@ -482,7 +482,7 @@ export default function App() {
                   <span>{lang === 'vi' ? 'Ưu đãi Combo' : 'Combo Benefits'}</span>
                 </div>
                 <ul className="space-y-1 text-[10px] text-zinc-600">
-                  <li>• 1 {lang === 'vi' ? 'Dịch vụ' : 'Service'}: 3.9M</li>
+                  <li>• 1 {lang === 'vi' ? 'Dịch vụ' : 'Service'}: 5.9M</li>
                   <li>• 2 {lang === 'vi' ? 'Dịch vụ' : 'Services'}: 6.9M (Save 0.9M)</li>
                   <li>• 3 {lang === 'vi' ? 'Dịch vụ' : 'Services'}: 9.9M (Save 1.8M)</li>
                   <li>• 5+ {lang === 'vi' ? 'Dịch vụ' : 'Services'}: 15.9M (Save 3.6M+)</li>
@@ -546,7 +546,7 @@ export default function App() {
             <div className="w-full md:w-1/3">
               <div className="aspect-[3/4] bg-zinc-100 border-4 border-zinc-900 relative overflow-hidden transition-all duration-500">
                 <img 
-                  src="https://media.licdn.com/dms/image/v2/D5603AQGEsdVakipNag/profile-displayphoto-scale_200_200/B56ZmuKKzZIAAY-/0/1759563528965?e=1776297600&v=beta&t=D0xMrz2D6Tkz_cVMXFYheTJUDJCLzxTS8XTFO86BoXc"
+                  src="https://i.ibb.co/x8LSc2D7/jin.jpg"
                   alt={t.expert.name}
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
